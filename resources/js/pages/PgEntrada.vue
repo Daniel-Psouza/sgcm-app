@@ -2,11 +2,11 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
-const imgSrc = ref('/ClinSys.png');
+const imgSrc = ref('/ClincSys.png');
 </script>
 
 <template>
-  <Head title="ClinSys - Sistema de Gerenciamento de Clínica Médica" />
+  <Head title="ClincSys" />
   <div class="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-200 via-white to-blue-400 relative">
     <!-- Botão de login -->
     <div class="absolute top-6 right-8">
@@ -21,11 +21,11 @@ const imgSrc = ref('/ClinSys.png');
       <img
         :src="imgSrc"
         @mouseenter="imgSrc = '/doutorzinho.png'"
-        @mouseleave="imgSrc = '/ClinSys.png'"
+        @mouseleave="imgSrc = '/ClincSys.png'"
         alt="Clínica Médica"
         class="w-36 h-36 mb-2 drop-shadow-xl rounded-full border-4 border-blue-300 bg-white transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer"
       />
-      <h1 class="text-5xl font-extrabold text-blue-900 mb-1 text-center drop-shadow">Bem-vindo ao ClinSys</h1>
+      <h1 class="text-5xl font-extrabold text-blue-900 mb-1 text-center drop-shadow">Bem-vindo ao ClincSys</h1>
     </div>
     <!-- Janela de texto institucional -->
     <div class="fixed bottom-12 left-8 bg-white/80 backdrop-blur-md rounded-r-lg shadow-2xl p-6 max-w-sm border-l-6 border-blue-400 flex items-center gap-4 ">
