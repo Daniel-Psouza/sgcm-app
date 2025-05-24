@@ -28,14 +28,16 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthBase title="Log in to your account" description="Enter your email and password below to log in">
-        <Head title="Log in" />
+  <div class="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-200 via-white to-blue-400 relative">
+    <div class="flex flex-col items-center justify-center w-80 z-10" style="margin-top: 80px; margin-bottom: 40px;">
+        <Head title="Entrar" />
 
         <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
             {{ status }}
         </div>
 
-        <form @submit.prevent="submit" class="flex flex-col gap-6">
+        <form @submit.prevent="submit" class="flex flex-col gap-6 p-6 bg-white/90 rounded-xl shadow-lg w-full">
+          <header class="">Login</header>
             <div class="grid gap-6">
                 <div class="grid gap-2">
                     <Label for="email">Email address</Label>
@@ -89,5 +91,6 @@ const submit = () => {
                 <TextLink :href="route('register')" :tabindex="5">Sign up</TextLink>
             </div>
         </form>
-    </AuthBase>
+    </div>
+  </div>
 </template>

@@ -22,33 +22,38 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthLayout title="Forgot password" description="Enter your email to receive a password reset link">
-        <Head title="Forgot password" />
+    <div class="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-200 via-white to-blue-400 relative">
+        <div class="flex flex-col items-center justify-center w-80 z-10" style="margin-top: 80px; margin-bottom: 40px;">
 
-        <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
-            {{ status }}
-        </div>
+            <Head title="Mudar senha" />
 
-        <div class="space-y-6">
-            <form @submit.prevent="submit">
-                <div class="grid gap-2">
-                    <Label for="email">Email address</Label>
-                    <Input id="email" type="email" name="email" autocomplete="off" v-model="form.email" autofocus placeholder="email@example.com" />
-                    <InputError :message="form.errors.email" />
-                </div>
+            <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
+                {{ status }}
+            </div>
 
-                <div class="my-6 flex items-center justify-start">
-                    <Button class="w-full" :disabled="form.processing">
-                        <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
-                        Email password reset link
-                    </Button>
-                </div>
-            </form>
+            <div class="space-y-6 flex flex-col gap-6 p-6 bg-white/90 rounded-xl shadow-lg w-full">
+                <form @submit.prevent="submit">
+                    <div class="grid gap-2">
+                        <Label for="email">Email</Label>
+                        <Input id="email" type="email" name="email" autocomplete="off" v-model="form.email" autofocus
+                            placeholder="exemplo@email.com" />
+                        <InputError :message="form.errors.email ? 'O campo email é necessário' : ''" />
+                    </div>
 
-            <div class="space-x-1 text-center text-sm text-muted-foreground">
-                <span>Or, return to</span>
-                <TextLink :href="route('login')">log in</TextLink>
+                    <div class="my-6 flex items-center justify-start">
+                        <Button class="w-full" :disabled="form.processing">
+                            <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
+                            Resetar Senha do Email
+                        </Button>
+                    </div>
+                </form>
+
+
+                    <div class="space-x-1 text-center text-sm text-muted-foreground">
+                        <span>Retorne para</span>
+                        <TextLink :href="route('login')">Entar</TextLink>
+                    </div>
             </div>
         </div>
-    </AuthLayout>
+    </div>
 </template>

@@ -30,7 +30,7 @@ const imgSrc = ref('/ClincSys.png');
     <!-- Janela de texto institucional -->
     <div class="fixed bottom-12 left-8 bg-white/80 backdrop-blur-md rounded-r-lg shadow-2xl p-6 max-w-sm border-l-6 border-blue-400 flex items-center gap-4 ">
       <p class="leading-relaxed text-base text-blue-900 text-justify font-medium">
-        O ClinSys é um sistema completo para gestão de clínicas médicas, unindo organização, praticidade e segurança, além de gerenciar agendas e informações com eficiência.
+        O ClincSys é um sistema completo para gestão de clínicas médicas, unindo organização, praticidade e segurança, além de gerenciar agendas e informações com eficiência.
       </p>
     </div>
   </div>
