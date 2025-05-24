@@ -8,7 +8,7 @@ use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ConsultaController;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    return Inertia::render('PgEntrada');
 })->name('home');
 
 Route::get('dashboard', function () {
