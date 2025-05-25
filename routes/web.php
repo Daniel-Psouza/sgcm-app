@@ -24,9 +24,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/medicos', [MedicoController::class, 'store'])->name('medicos.store');
     Route::delete('/medicos/{id}', [MedicoController::class, 'destroy'])->name('medicos.destroy');
 
-    Route::get('/pacientes', [PacienteController::class, 'index'])->name('pacientes.index');
-    Route::post('/pacientes', [PacienteController::class, 'store'])->name('pacientes.store');
-    Route::delete('/pacientes/{id}', [PacienteController::class, 'destroy'])->name('pacientes.destroy');
 
     Route::get('/consultas', [ConsultaController::class, 'index'])->name('consultas.index');
     Route::post('/consultas', [ConsultaController::class, 'store'])->name('consultas.store');

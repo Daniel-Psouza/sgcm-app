@@ -23,6 +23,27 @@ class MedicoSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'nome' => 'Dr. Carlos Souza',
+                'crm' => '111222',
+                'especialidade_id' => 3,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nome' => 'Dra. Ana Paula',
+                'crm' => '333444',
+                'especialidade_id' => 4,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nome' => 'Dr. Pedro Lima',
+                'crm' => '555666',
+                'especialidade_id' => 5,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }

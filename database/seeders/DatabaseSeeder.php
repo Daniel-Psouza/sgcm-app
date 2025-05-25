@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Database\Seeders\EspecialidadeSeeder;
 use Database\Seeders\MedicoSeeder;
-use Database\Seeders\PacienteSeeder;
 use Database\Seeders\ConsultaSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,7 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             EspecialidadeSeeder::class,
             MedicoSeeder::class,
-            PacienteSeeder::class,
             ConsultaSeeder::class,
         ]);
 

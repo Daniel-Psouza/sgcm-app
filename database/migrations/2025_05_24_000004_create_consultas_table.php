@@ -8,7 +8,6 @@ return new class extends Migration {
     {
         Schema::create('consultas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('paciente_id')->constrained('pacientes');
             $table->foreignId('medico_id')->constrained('medicos');
             $table->dateTime('data_hora');
             $table->text('observacoes')->nullable();
