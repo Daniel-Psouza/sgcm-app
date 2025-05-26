@@ -9,7 +9,7 @@ const imgSrc = ref('/ClincSys.png');
 
   <Head title="ClincSys" />
   <div
-    class="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-200 via-white to-blue-400 relative">
+    class="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-200 via-white to-blue-400 relative ">
     <!-- Botão de login -->
     <div class="absolute top-6 right-8">
       <Link :href="route('login')">

@@ -123,7 +123,7 @@ async function confirmarAgendamento() {
 <template>
   <Head title="Atendimento" />
   <div class="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-300 via-white to-blue-400 relative">
-    <div class="p-8 bg-white">
+    <div class="p-8 bg-white rounded-lg shadow-lg dark:text-black"> 
       <form method="POST" action="/logout" class="absolute top-8 right-8 z-20" @submit.prevent="logout">
         <button type="submit" class="btn-principal bg-blue-400 text-black px-6 py-3 rounded-xl shadow hover:bg-blue-800 hover:text-white font-semibold text-lg transition-all">
           Desconectar
