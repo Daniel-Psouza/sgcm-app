@@ -5,7 +5,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\EspecialidadeController;
 use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\PacienteController;
-use App\Http\Controllers\ConsultaController;
+use App\Http\Controllers\AgendamentoController;
 
 Route::get('/', function () {
     return Inertia::render('PgEntrada');
@@ -24,10 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/medicos', [MedicoController::class, 'store'])->name('medicos.store');
     Route::delete('/medicos/{id}', [MedicoController::class, 'destroy'])->name('medicos.destroy');
 
-
-    Route::get('/consultas', [ConsultaController::class, 'index'])->name('consultas.index');
-    Route::post('/consultas', [ConsultaController::class, 'store'])->name('consultas.store');
-    Route::delete('/consultas/{id}', [ConsultaController::class, 'destroy'])->name('consultas.destroy');
+    Route::post('/agendamentos', [AgendamentoController::class, 'store'])->name('agendamentos.store');
 });
 
 require __DIR__.'/settings.php';

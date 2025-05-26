@@ -9,13 +9,8 @@ class MedicoController extends Controller
 {
     public function index()
     {
-        $medicos = DB::table('medicos')
-            ->join('especialidades', 'medicos.especialidade_id', '=', 'especialidades.id')
-            ->select('medicos.*', 'especialidades.nome as especialidade_nome')
-            ->get();
-        return Inertia::render('Medicos', [
-            'medicos' => $medicos
-        ]);
+        $medicos = DB::table('medicos')->get();
+        return response()->json($medicos);
     }
 
     public function store(Request $request)

@@ -64,13 +64,10 @@ function logout() {
             <option v-for="e in especialidades" :key="e.id" :value="e.id">{{ e.nome }}</option>
           </select>
         </div>
-        <!-- Menu suspenso Consulta -->
+                <!-- Campo Observação -->
         <div class="mb-4 w-full">
-          <label class="block text-gray-700">Consulta</label>
-          <select class="w-full p-2 border rounded">
-            <option disabled selected>Selecione uma consulta</option>
-            <option v-for="c in consultas" :key="c.id" :value="c.id">Consulta #{{ c.id }} - {{ c.data }} {{ c.hora }}</option>
-          </select>
+          <label class="block text-gray-700">Observação</label>
+          <textarea class="w-full p-2 border rounded" rows="3" v-model="observacao" placeholder="Digite uma observação..."></textarea>
         </div>
         <!-- Campo Data e Hora juntos -->
         <div class="mb-4 w-full flex gap-2">

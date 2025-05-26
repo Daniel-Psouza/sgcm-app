@@ -10,9 +10,7 @@ class EspecialidadeController extends Controller
     public function index()
     {
         $especialidades = DB::table('especialidades')->get();
-        return Inertia::render('Especialidades', [
-            'especialidades' => $especialidades
-        ]);
+        return response()->json($especialidades);
     }
 
     public function store(Request $request)

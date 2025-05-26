@@ -44,6 +44,41 @@ class MedicoSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'nome' => 'Dra. Fernanda Costa',
+                'crm' => '777888',
+                'especialidade_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nome' => 'Dr. Lucas Almeida',
+                'crm' => '999000',
+                'especialidade_id' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nome' => 'Dra. Juliana Rocha',
+                'crm' => '222333',
+                'especialidade_id' => 3,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nome' => 'Dr. Rafael Martins',
+                'crm' => '444555',
+                'especialidade_id' => 4,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nome' => 'Dra. Beatriz Santos',
+                'crm' => '666777',
+                'especialidade_id' => 5,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }
