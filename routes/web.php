@@ -25,6 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/medicos/{id}', [MedicoController::class, 'destroy'])->name('medicos.destroy');
 
     Route::post('/agendamentos', [AgendamentoController::class, 'store'])->name('agendamentos.store');
+    Route::post('/medicos/disponiveis', [MedicoController::class, 'disponiveis'])->name('medicos.disponiveis');
 });
 
 require __DIR__.'/settings.php';
