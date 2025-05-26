@@ -28,7 +28,7 @@ const submit = () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-200 via-white to-blue-400 relative">
+  <div class="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-200 via-white to-blue-400 relative dark:text-black">
     <div class="flex flex-col items-center justify-center w-80 z-10" style="margin-top: 80px; margin-bottom: 40px;">
         <Head title="Entrar" />
 
@@ -67,7 +67,7 @@ const submit = () => {
                     v-model="form.password"
                     placeholder="Senha"
                     />
-                    <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm" :tabindex="5">
+                    <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm dark:text-black" :tabindex="5">
                         Esqueceu a senha?
                     </TextLink>
                     <InputError :message="form.errors.password" />
@@ -80,15 +80,15 @@ const submit = () => {
                     </Label>
                 </div>
 
-                <Button type="submit" class="mt-4 w-full" :tabindex="4" :disabled="form.processing">
-                    <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
+                <Button type="submit" class="mt-4 w-full " :tabindex="4" :disabled="form.processing">
+                    <LoaderCircle v-if="form.processing" class="h-4 w-4 " />
                     Entrar
                 </Button>
             </div>
-
-            <div class="text-center text-sm text-muted-foreground">
+            
+            <div class="text-center text-sm text-muted-foreground ">
                 Não possui uma conta?
-                <TextLink :href="route('register')" :tabindex="5">Cadastre-se</TextLink>
+                <TextLink :href="route('register')" :tabindex="5" >Cadastre-se</TextLink>
             </div>
         </form>
     </div>
