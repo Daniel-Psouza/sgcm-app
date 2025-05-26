@@ -65,4 +65,13 @@ class MedicoController extends Controller
             ->get();
         return response()->json($medicos);
     }
+
+    public function porEspecialidade($especialidade_id)
+    {
+        $medicos = \DB::table('medicos')
+            ->where('especialidade_id', $especialidade_id)
+            ->select('id', 'nome')
+            ->get();
+        return response()->json($medicos);
+    }
 }

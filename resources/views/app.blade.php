@@ -30,10 +30,9 @@
             }
         </style>
 
-        <title inertia>{{ config('app.name', 'Laravel') }}</title>
+        <title inertia>{{ config('app.name', ) }}</title>
 
         
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
         <link rel="icon" type="image/png" href="/Esteto.png" />
         <link rel="shortcut icon" type="image/png" href="/Esteto.png" />
 

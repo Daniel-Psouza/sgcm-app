@@ -15,20 +15,6 @@ class EspecialidadeSeeder extends Seeder
             ['nome' => 'Ortopedia'],
             ['nome' => 'Ginecologia'],
             ['nome' => 'Oftalmologia'],
-            ['nome' => 'Psiquiatria'],
-            ['nome' => 'Neurologia'],
-            ['nome' => 'Endocrinologia'],
-            ['nome' => 'Gastroenterologia'],
-            ['nome' => 'Urologia'],
-            ['nome' => 'Reumatologia'],
-            ['nome' => 'Infectologia'],
-            ['nome' => 'Hematologia'],
-            ['nome' => 'Nefrologia'],
-            ['nome' => 'Oncologia'],
-            ['nome' => 'Pneumologia'],
-            ['nome' => 'Otorrinolaringologia'],
-            ['nome' => 'Cirurgia Geral'],
-            ['nome' => 'Cirurgia Plástica'],
         ]);
     }
 }
