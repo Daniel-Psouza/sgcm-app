@@ -15,8 +15,8 @@ const consultas = ref<Consulta[]>([]);
 const data = ref('');
 const hora = ref('');
 const observacao = ref('');
-const medicoSelecionado = ref<number|string>('');
-const especialidadeSelecionada = ref<number|string>('');
+const medicoSelecionado = ref<number | string>('');
+const especialidadeSelecionada = ref<number | string>('');
 const showModal = ref(false);
 const agendamentoResumo = ref({
   medico: '',
@@ -58,11 +58,11 @@ watch([especialidadeSelecionada, data, hora], async ([esp, d, h]) => {
 });
 
 function logout() {
-    router.post('/logout', {}, {
-        onFinish: () => {
-            router.visit('/');
-        }
-    });
+  router.post('/logout', {}, {
+    onFinish: () => {
+      router.visit('/');
+    }
+  });
 }
 
 function abrirModalConfirmacao() {
@@ -121,74 +121,86 @@ async function confirmarAgendamento() {
 </script>
 
 <template>
+
   <Head title="Atendimento" />
-  <div class="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-300 via-white to-blue-400 relative">
-    <div class="p-8 bg-white rounded-lg shadow-lg dark:text-black"> 
+  <div
+    class="h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-200 via-white to-blue-400 dark:from-gray-900 dark:via-gray-700 dark:to-blue-900 relative transition-colors py-8 px-2 sm:px-6 lg:px-8">
+    <div class="w-full max-w-md z-10">
       <form method="POST" action="/logout" class="absolute top-8 right-8 z-20" @submit.prevent="logout">
-        <button type="submit" class="btn-principal bg-blue-400 text-black px-6 py-3 rounded-xl shadow hover:bg-blue-800 hover:text-white font-semibold text-lg transition-all">
+        <button type="submit"
+          class="bg-blue-500 hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-bold px-6 py-2 rounded-full shadow transition-all tracking-wide">
           Desconectar
         </button>
       </form>
-      <header class="text-center font-bold text-xl">Faça seu Agendamento</header>
-      <!-- Menu suspenso Especialidade -->
-      <div class="mb-4 w-full">
-        <label class="block text-gray-700">Especialidade</label>
-        <select class="w-full p-2 border rounded" v-model="especialidadeSelecionada">
-          <option disabled value="">Selecione uma especialidade</option>
-          <option v-for="e in especialidades" :key="e.id" :value="e.id">{{ e.nome }}</option>
-        </select>
-      </div>
-      <!-- Campo Data e Hora juntos -->
-      <div class="mb-4 w-full flex gap-2">
-        <div class="flex-1">
-          <label class="block text-gray-700">Data</label>
-          <input type="date" class="w-full p-2 border rounded" v-model="data" />
+      <div
+        class="w-full bg-white/95 dark:bg-gray-900/95 rounded-2xl shadow-2xl p-6 sm:p-8 border-2 border-blue-500 dark:border-blue-700 transition-colors">
+        <div class="flex flex-col items-center mb-6">
+          <img src="/copio.png" alt="Logo ClinicSys" class="w-14 h-14 sm:w-24 sm:h-24 mb-2 drop-shadow" />
+          <h2 class="text-3xl font-extrabold text-blue-500 dark:text-blue-400 text-center mb-1 tracking-tight">Faça seu
+            Agendamento</h2>
         </div>
-        <div class="flex-1">
-          <label class="block text-gray-700">Hora</label>
-          <select class="w-full p-2 border rounded" v-model="hora">
-            <option disabled value="">Selecione um horário</option>
-            <option v-for="h in ['08:00', '10:00', '10:30', '11:00', '13:00', '14:00', '15:00', '16:00']" :key="h" :value="h">{{ h }}</option>
+        <!-- Menu suspenso Especialidade -->
+        <div class="mb-4 w-full">
+          <label class="block text-black dark:text-white">Especialidade</label>
+          <select class="w-full p-2 border rounded dark:bg-gray-800 text-black dark:text-white"
+            v-model="especialidadeSelecionada">
+            <option disabled value="">Selecione uma especialidade</option>
+            <option v-for="e in especialidades" :key="e.id" :value="e.id">{{ e.nome }}</option>
           </select>
         </div>
-      </div>
-      <!-- Menu suspenso Médico (aparece só se especialidade, data e hora estiverem preenchidos) -->
-      <div class="mb-4 w-full" v-if="especialidadeSelecionada && data && hora">
-        <label class="block text-gray-700">Médico</label>
-        <select class="w-full p-2 border rounded" v-model="medicoSelecionado">
-          <option disabled value="">Selecione um médico</option>
-          <option v-for="m in medicosDisponiveis" :key="m.id" :value="m.id">{{ m.nome }}</option>
-        </select>
-      </div>
-      <!-- Campo Observação -->
-      <div class="mb-4 w-full">
-        <label class="block text-gray-700">Observação</label>
-        <textarea class="w-full p-2 border rounded" rows="3" placeholder="Digite uma observação..." v-model="observacao"></textarea>
-      </div>
-      <!-- Botão para abrir modal de confirmação -->
-      <div class="mb-4 w-full">
-        <button @click="abrirModalConfirmacao" class="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-all">
-          Confirmar Agendamento
-        </button>
-      </div>
-      <!-- Modal de confirmação -->
-      <div v-if="showModal" class="fixed inset-0 flex items-center justify-center z-50">
-        <div class="bg-white p-5 rounded shadow-md w-11/12 max-w-md">
-          <h3 class="text-lg font-semibold mb-4">Deseja confirmar o agendamento?</h3>
-          <p><strong>Médico:</strong> {{ agendamentoResumo.medico }}</p>
-          <p><strong>Especialidade:</strong> {{ agendamentoResumo.especialidade }}</p>
-          <p><strong>Data:</strong> {{ agendamentoResumo.data }}</p>
-          <p><strong>Hora:</strong> {{ agendamentoResumo.hora }}</p>
-          <p><strong>Observação:</strong> {{ agendamentoResumo.observacao }}</p>
-          <div class="flex justify-end gap-2 mt-4">
-            <button @click="fecharModal" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancelar</button>
-            <button @click="confirmarAgendamento" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Agendar</button>
+        <!-- Campo Data e Hora juntos -->
+        <div class="mb-4 w-full flex gap-2">
+          <div class="flex-1">
+            <label class="block text-black dark:text-white">Data</label>
+            <input type="date" class="w-full p-2 border rounded dark:bg-gray-800 text-black dark:text-white"
+              v-model="data" />
+          </div>
+          <div class="flex-1">
+            <label class="block text-black dark:text-white">Hora</label>
+            <select class="w-full p-2 border rounded dark:bg-gray-800 text-black dark:text-white" v-model="hora">
+              <option disabled value="">Selecione um horário</option>
+              <option v-for="h in ['08:00', '10:00', '10:30', '11:00', '13:00', '14:00', '15:00', '16:00']" :key="h"
+                :value="h">{{ h }}</option>
+            </select>
           </div>
         </div>
-      </div>
-      <!-- Alerta de sucesso/erro -->
-      <div v-if="alerta" :class="['fixed top-6 right-6 z-50 px-4 py-2 rounded shadow-lg', alerta.tipo === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white']">
-        {{ alerta.msg }}
+        <!-- Menu suspenso Médico (aparece só se especialidade, data e hora estiverem preenchidos) -->
+        <div class="mb-4 w-full" v-if="especialidadeSelecionada && data && hora">
+          <label class="block text-black dark:text-white">Médico</label>
+          <select class="w-full p-2 border rounded dark:bg-gray-800 text-black dark:text-white"
+            v-model="medicoSelecionado">
+            <option disabled value="">Selecione um médico</option>
+            <option v-for="m in medicosDisponiveis" :key="m.id" :value="m.id">{{ m.nome }}</option>
+          </select>
+        </div>
+        <!-- Botão para abrir modal de confirmação -->
+        <div class="mb-4 w-full">
+          <button @click="abrirModalConfirmacao"
+            class="w-full p-2 bg-blue-500 text-white rounded-xl font-bold shadow hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800 transition-all">
+            Confirmar Agendamento
+          </button>
+        </div>
+        <!-- Modal de confirmação -->
+        <div v-if="showModal" class="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-black/20">
+          <div
+            class="text-justify bg-white dark:bg-gray-900 p-4 rounded-xl shadow-2xl border-2 border-blue-500 dark:border-blue-700 w-full max-w-xl">
+            <h2 class="text-base font-semibold mb-3 text-blue-500 dark:text-blue-400">Deseja confirmar o agendamento?
+            </h2>
+            <div class="text-gray-700 dark:text-gray-300 mb-2 text-sm">
+              Atenção: Ao finalizar o agendamento, você estará reservando o horário de um profissional especializado. Cancele apenas se for realmente necessário.
+            </div>
+            <div class="flex justify-end gap-2 mt-3">
+              <button @click="fecharModal"
+          class="px-3 py-1.5 bg-gray-300 dark:bg-gray-700 text-black dark:text-white rounded hover:bg-gray-400 dark:hover:bg-gray-600 text-sm">Cancelar</button>
+              <button @click="confirmarAgendamento"
+          class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Agendar</button>
+            </div>
+          </div>
+        </div>
+        <div v-if="alerta"
+          :class="['fixed top-6 right-6 z-50 px-4 py-2 rounded shadow-lg', alerta.tipo === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white']">
+          {{ alerta.msg }}
+        </div>
       </div>
     </div>
   </div>
