@@ -1,36 +1,41 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import { router } from '@inertiajs/vue3';
 
 // Campos do formulário
 const especialidade = ref('');
 const data = ref('');
 const hora = ref('');
+const medico = ref('');
 
-// Modal
-const showModal = ref(false);
-const agendamento = ref({
-  medico: '',
-  especialidade: '',
-  data: '',
-  hora: '',
-});
+// Especialidades
+const especialidades = ref([]);
+
+// Médicos
+const medicos = ref([]);
 
 function logout() {
   router.post('/logout', {}, {
-    onFinish: () => {
+    onFinish() {
       router.visit('/');
     }
   });
 }
 
-function abrirModal() {
-
-}
-
-function fecharModal() {
-  showModal.value = false;
-}
+onMounted(async () => {
+  try {
+    const responseEsp = await fetch('/especialidades');
+    if (responseEsp.ok) {
+      especialidades.value = await responseEsp.json();
+    }
+    const responseMed = await fetch('/medicos');
+    if (responseMed.ok) {
+      medicos.value = await responseMed.json();
+    }
+  } catch (e) {
+    alert('Erro ao buscar especialidades ou médicos');
+  }
+});
 </script>
 
 <template>
@@ -49,23 +54,44 @@ function fecharModal() {
       </div>
       <div class="mb-4">
         <label class="text-blue-500">Especialidade</label>
-        <input type="text"
+        <select
           class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
-          v-model="especialidade" placeholder="Digite a especialidade" />
+          v-model="especialidade">
+          <option value="" disabled>Selecione a especialidade</option>
+          <option v-for="esp in especialidades" :key="esp.id" :value="esp.id">
+            {{ esp.nome }}
+          </option>
+        </select>
       </div>
       <div class="mb-4 flex gap-4">
         <div class="flex-1">
           <label class="text-blue-500">Data</label>
           <input type="date"
-        class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
-        v-model="data" />
+            class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
+            v-model="data" />
         </div>
         <div class="flex-1">
           <label class="text-blue-500">Hora</label>
-          <input type="time"
-        class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
-        v-model="hora" />
+          <select
+            class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
+            v-model="hora">
+            <option value="" disabled>Selecione o horário</option>
+            <option value="08:00">08:00</option>
+            <option value="10:00">10:00</option>
+            <option value="12:00">12:00</option>
+            <option value="14:00">14:00</option>
+            <option value="16:00">16:00</option>
+          </select>
         </div>
+      </div>
+      <div v-if="especialidade && data && hora"> 
+        <label class="text-blue-500">Medicos</label>
+        <select class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600" v-model="medico">
+          <option value="" disabled>Selecione um Médico</option>
+          <option v-for="med in medicos" :key="med.id" :value="med.id">
+            {{ med.nome }}
+          </option>
+        </select>
       </div>
     </div>
   </div>
