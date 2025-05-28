@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
 
 // Campos do formulário
@@ -9,10 +9,54 @@ const hora = ref('');
 const medico = ref('');
 
 // Especialidades
-const especialidades = ref([]);
+const especialidades = ref<any[]>([]);
 
 // Médicos
-const medicos = ref([]);
+const medicos = ref<any[]>([]);
+
+watch(especialidade, async (novoId) => {
+  medicos.value = [];
+  medico.value = '';
+  if (!novoId) return;
+  try {
+    const response = await fetch(`/medicos/por-especialidade/${novoId}`);
+    if (response.ok) {
+      medicos.value = await response.json();
+    }
+  } catch (e) {
+    alert('Erro ao buscar médicos da especialidade');
+  }
+});
+
+watch([especialidade, data, hora], async ([novoId, novaData, novaHora]) => {
+  medicos.value = [];
+  medico.value = '';
+  if (!novoId || !novaData || !novaHora) return;
+  try {
+    const params = new URLSearchParams({
+      especialidade_id: novoId,
+      data: novaData,
+      hora: novaHora
+    });
+    const response = await fetch(`/medicos/disponiveis?${params.toString()}`);
+    if (response.ok) {
+      medicos.value = await response.json();
+    }
+  } catch (e) {
+    alert('Erro ao buscar médicos disponíveis');
+  }
+});
+
+onMounted(async () => {
+  try {
+    const responseEsp = await fetch('/especialidades');
+    if (responseEsp.ok) {
+      especialidades.value = await responseEsp.json();
+    }
+  } catch (e) {
+    alert('Erro ao buscar especialidades');
+  }
+});
 
 function logout() {
   router.post('/logout', {}, {
@@ -21,21 +65,6 @@ function logout() {
     }
   });
 }
-
-onMounted(async () => {
-  try {
-    const responseEsp = await fetch('/especialidades');
-    if (responseEsp.ok) {
-      especialidades.value = await responseEsp.json();
-    }
-    const responseMed = await fetch('/medicos');
-    if (responseMed.ok) {
-      medicos.value = await responseMed.json();
-    }
-  } catch (e) {
-    alert('Erro ao buscar especialidades ou médicos');
-  }
-});
 </script>
 
 <template>
@@ -88,9 +117,9 @@ onMounted(async () => {
         <label class="text-blue-500">Medicos</label>
         <select class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600" v-model="medico">
           <option value="" disabled>Selecione um Médico</option>
-          <option v-for="med in medicos" :key="med.id" :value="med.id">
-            {{ med.nome }}
-          </option>
+            <option v-for="med in medicos" :key="med.id" :value="med.id">
+              {{ med.nome }}
+            </option>
         </select>
       </div>
     </div>

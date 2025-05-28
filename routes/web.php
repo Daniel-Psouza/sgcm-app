@@ -23,6 +23,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/medicos', [MedicoController::class, 'index'])->name('medicos.index');
     Route::post('/medicos', [MedicoController::class, 'store'])->name('medicos.store');
     Route::delete('/medicos/{id}', [MedicoController::class, 'destroy'])->name('medicos.destroy');
+    Route::get('/medicos/disponiveis', [MedicoController::class, 'disponiveis'])->name('medicos.disponiveis');
 
     Route::post('/agendamentos', [AgendamentoController::class, 'store'])->name('agendamentos.store');
 });

@@ -9,15 +9,14 @@ class MedicoSeeder extends Seeder
     public function run(): void
     {
         $medicos = [
-            [ 'nome' => 'Dr. João Silva', 'crm' => '123456' ],
-            [ 'nome' => 'Dra. Maria Oliveira', 'crm' => '654321' ],
-            [ 'nome' => 'Dr. Carlos Souza', 'crm' => '111222' ],
-            [ 'nome' => 'Dra. Ana Paula', 'crm' => '333444' ],
-            [ 'nome' => 'Dr. Pedro Lima', 'crm' => '555666' ],
+            [ 'id' => 1, 'nome' => 'Dr. João Silva', 'crm' => '123456' ],
+            [ 'id' => 2, 'nome' => 'Dra. Maria Oliveira', 'crm' => '654321' ],
+            [ 'id' => 3, 'nome' => 'Dr. Carlos Souza', 'crm' => '111222' ],
+            [ 'id' => 4, 'nome' => 'Dra. Ana Paula', 'crm' => '333444' ],
+            [ 'id' => 5, 'nome' => 'Dr. Pedro Lima', 'crm' => '555666' ],
         ];
         DB::table('medicos')->insert($medicos);
         // Relaciona especialidades (cada médico pode ter mais de uma)
-        $especialidades = [1,2,3,4,5];
         $relacoes = [
             [1, [1,2]], // João: Cardiologia, Dermatologia
             [2, [2,3]], // Maria: Dermatologia, Pediatria
