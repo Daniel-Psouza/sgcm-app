@@ -14,6 +14,8 @@ const especialidades = ref<any[]>([]);
 // Médicos
 const medicos = ref<any[]>([]);
 
+const showModal = ref(false);
+
 watch(especialidade, async (novoId) => {
   medicos.value = [];
   medico.value = '';
@@ -64,6 +66,28 @@ function logout() {
       router.visit('/');
     }
   });
+}
+
+function tentarAgendar() {
+  if (especialidade.value && data.value && hora.value && medico.value) {
+    showModal.value = true;
+  } else {
+    alert('Preencha todos os campos para agendar!');
+  }
+}
+
+function confirmarAgendamento() {
+  router.post('/agendamentos', {
+    especialidade_id: especialidade.value,
+    data: data.value,
+    hora: hora.value,
+    medico: medico.value
+  });
+  showModal.value = false;
+}
+
+function cancelarAgendamento() {
+  showModal.value = false;
 }
 </script>
 
@@ -121,6 +145,23 @@ function logout() {
               {{ med.nome }}
             </option>
         </select>
+      </div>
+      <div>
+        <button @click="tentarAgendar"
+          class="w-full mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full shadow px-6 py-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-900">
+          Agendar
+        </button>
+      </div>
+      <!-- Modal de confirmação -->
+      <div v-if="showModal" class="fixed inset-0 flex items-center justify-center bg-black/20 bg-opacity-40 backdrop-blur-sm z-50">
+        <div class="bg-gradient-to-br from-blue-100 via-white to-blue-200 dark:from-gray-800 dark:via-gray-700 dark:to-blue-900 rounded-2xl p-8 w-full max-w-sm shadow-2xl border border-blue-200 dark:border-gray-700 relative ring-2 ring-blue-300 dark:ring-blue-800 animate-fadeIn">
+          <h2 class="text-lg font-bold mb-4 text-blue-500">Deseja confirmar o agendamento?</h2>
+          <p class="mb-4 text-blue-100 text-justify blu"><Strong>Atenção: </Strong>Ao agendar uma consulta, você estará reservando o horário de um profissional. Caso não possa comparecer, lembre-se de cancelar com antecedência para não prejudicar outros pacientes.</p>
+          <div class="flex justify-end gap-2">
+        <button @click="cancelarAgendamento" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-gray-800">Cancelar</button>
+        <button @click="confirmarAgendamento" class="px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white">Confirmar</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
