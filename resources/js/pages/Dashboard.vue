@@ -68,6 +68,7 @@ function logout() {
   });
 }
 
+
 function tentarAgendar() {
   if (especialidade.value && data.value && hora.value && medico.value) {
     showModal.value = true;
@@ -79,11 +80,27 @@ function tentarAgendar() {
 function confirmarAgendamento() {
   router.post('/agendamentos', {
     especialidade_id: especialidade.value,
+    medico_id: medico.value,
     data: data.value,
     hora: hora.value,
-    medico: medico.value
+    observacao: '',
+  }, {
+    onSuccess() {
+      showModal.value = false;
+      especialidade.value = '';
+      data.value = '';
+      hora.value = '';
+      medico.value = '';
+      router.get('/agendamentos'); // Redireciona para a página de agendamentos
+    },
+    onError(errors) {
+      if (errors && errors.error) {
+        alert(errors.error);
+      } else {
+        alert('Erro ao agendar. Tente novamente.');
+      }
+    }
   });
-  showModal.value = false;
 }
 
 function cancelarAgendamento() {
