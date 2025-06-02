@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3'
+
 
 // Campos do formulário
 const especialidade = ref('');
@@ -109,6 +111,7 @@ function cancelarAgendamento() {
 </script>
 
 <template>
+    <Head title="Agendamento" />
   <div
     class="h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-200 via-white to-blue-400 dark:from-gray-900 dark:via-gray-700 dark:to-blue-900 relative transition-colors py-8 px-2 sm:px-6 lg:px-8">
     <div class="absolute top-4 left-4">

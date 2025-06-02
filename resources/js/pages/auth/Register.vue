@@ -26,7 +26,7 @@ const submit = () => {
         class="h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-200 via-white to-blue-400 dark:from-gray-900 dark:via-gray-700 dark:to-blue-900 relative transition-colors">
         <div class="flex flex-col items-center justify-center">
 
-            <Head title="Cadastrar" />
+            <Head title="Cadastro" />
             <div class="bg-white/95 dark:bg-gray-900/95 rounded-2xl shadow-2xl p-6 border-4 border-blue-500 dark:border-blue-700 transition-colors">
                 <div class="flex flex-col items-center mb-3">
                     <img src="/copio.png" alt="Logo ClinicSys" class="sm:w-20 sm:h-20 mb-2 drop-shadow" />
