@@ -64,5 +64,12 @@ function logout() {
         </table>
       </div>
     </div>
+    <div
+      class="fixed bottom-4 left-4 bg-white/90 dark:bg-gray-800/90 rounded-xl shadow-lg px-4 py-4 border-l-4 border-blue-400 dark:border-blue-700 max-w-xs z-30">
+      <p class="text-blue-900 dark:text-blue-100 text-md mt-2">Caso tenha que cancelar uma consulta entre em contato.
+      </p>
+      <p class="text-blue-900 dark:text-blue-100 text-sm font-medium mb-1">Telefone: (11) 99999-9999</p>
+      <p class="text-blue-900 dark:text-blue-100 text-sm font-medium mb-1">E-mail: contato@clinicsys.com.br</p>
+    </div>
   </div>
 </template>
