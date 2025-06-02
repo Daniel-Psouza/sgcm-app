@@ -20,7 +20,7 @@ import { ref } from 'vue';
     <!-- Nome do projeto e imagem -->
     <div class="flex flex-col items-center justify-center mt-0 absolute top-16 left-1/2 -translate-x-1/2 w-full max-w-md z-10">
       <div
-        class="bg-[url('../med.png')] hover:bg-[url('../doutor.png')] bg-center bg-cover bg-white
+        class="bg-[url('/med.png')] hover:bg-[url('/doutor.png')] bg-center bg-cover bg-white
         dark:bg-blue-100 hover:rotate-y-360 transform-3d w-50 h-50 transition-transform duration-500 rounded-full shadow-lg mb-4 hover:shadow-2xl border-2 border-blue-500 dark:border-blue-700">
       </div>
       <h1 class="text-2xl sm:text-3xl font-extrabold text-blue-900 dark:text-blue-100 text-center mb-1 tracking-tight drop-shadow">

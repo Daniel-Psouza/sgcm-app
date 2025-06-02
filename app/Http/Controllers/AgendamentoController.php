@@ -25,7 +25,7 @@ class AgendamentoController extends Controller
             ->exists();
 
         if ($existe) {
-            return response()->json(['error' => 'Já existe um agendamento para este médico, especialidade, data e hora.'], 422);
+            return response()->modal(['error' => 'Já existe um agendamento para este médico, especialidade, data e hora.']);
         }
 
         try {
@@ -39,12 +39,10 @@ class AgendamentoController extends Controller
             ]);
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->getCode() === '23000') { // Violação de constraint única
-                return response()->json(['error' => 'Já existe um agendamento para este médico, especialidade, data e hora.'], 422);
+                return response()->modal(['error' => 'Já existe um agendamento para este médico, especialidade, data e hora.']);
             }
             throw $e;
         }
-
-        return response()->json(['success' => true]);
     }
 
     public function index()
@@ -65,7 +63,6 @@ class AgendamentoController extends Controller
                 $ag->hora = $dataHora[1] ?? '';
                 return $ag;
             });
-        return response()->json($agendamentos);
     }
 
     public function show($id)
@@ -82,12 +79,11 @@ class AgendamentoController extends Controller
             )
             ->first();
         if (!$agendamento) {
-            return response()->json(['error' => 'Agendamento não encontrado'], 404);
         }
         $dataHora = explode(' ', $agendamento->data_hora);
         $agendamento->data = $dataHora[0] ?? '';
         $agendamento->hora = $dataHora[1] ?? '';
-        return response()->json($agendamento);
+        return response()->modal($agendamento);
     }
 
     public function update(Request $request, $id)
@@ -111,7 +107,7 @@ class AgendamentoController extends Controller
             'observacao' => $request->observacao,
             'updated_at' => now(),
         ]);
-        return response()->json(['success' => true]);
+        return response('', 204);
     }
 
     public function destroy($id)
@@ -121,6 +117,27 @@ class AgendamentoController extends Controller
             return response()->json(['error' => 'Agendamento não encontrado'], 404);
         }
         \DB::table('agendamentos')->where('id', $id)->delete();
-        return response()->json(['success' => true]);
+        return response('', 204);
+    }
+
+    public function lista()
+    {
+        $agendamentos = \DB::table('agendamentos')
+            ->join('medicos', 'agendamentos.medico_id', '=', 'medicos.id')
+            ->join('especialidades', 'agendamentos.especialidade_id', '=', 'especialidades.id')
+            ->select(
+                'agendamentos.id',
+                'agendamentos.data_hora',
+                'medicos.nome as medico_nome',
+                'especialidades.nome as especialidade_nome'
+            )
+            ->get()
+            ->map(function ($ag) {
+                $dataHora = explode(' ', $ag->data_hora);
+                $ag->data = $dataHora[0] ?? '';
+                $ag->hora = $dataHora[1] ?? '';
+                return $ag;
+            });
+        return inertia('Agendamentos', ['agendamentos' => $agendamentos]);
     }
 }

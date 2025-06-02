@@ -111,6 +111,12 @@ function cancelarAgendamento() {
 <template>
   <div
     class="h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-200 via-white to-blue-400 dark:from-gray-900 dark:via-gray-700 dark:to-blue-900 relative transition-colors py-8 px-2 sm:px-6 lg:px-8">
+    <div class="absolute top-4 left-4">
+      <button @click="router.get('/agendamentos/lista')"
+        class="bg-blue-400 hover:bg-blue-500 text-white font-semibold rounded-full shadow px-6 py-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-900">
+        Consultas Agendadas
+      </button>
+    </div>
     <div class="absolute top-4 right-4">
       <button @click="logout"
         class="bg-blue-400 hover:bg-blue-500 text-white font-semibold rounded-full shadow px-6 py-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-900">Sair</button>
@@ -154,13 +160,15 @@ function cancelarAgendamento() {
           </select>
         </div>
       </div>
-      <div v-if="especialidade && data && hora"> 
+      <div v-if="especialidade && data && hora">
         <label class="text-blue-500">Medicos</label>
-        <select class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600" v-model="medico">
+        <select
+          class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
+          v-model="medico">
           <option value="" disabled>Selecione um Médico</option>
-            <option v-for="med in medicos" :key="med.id" :value="med.id">
-              {{ med.nome }}
-            </option>
+          <option v-for="med in medicos" :key="med.id" :value="med.id">
+            {{ med.nome }}
+          </option>
         </select>
       </div>
       <div>
@@ -170,13 +178,19 @@ function cancelarAgendamento() {
         </button>
       </div>
       <!-- Modal de confirmação -->
-      <div v-if="showModal" class="fixed inset-0 flex items-center justify-center bg-black/20 bg-opacity-40 backdrop-blur-sm z-50">
-        <div class="bg-gradient-to-br from-blue-100 via-white to-blue-200 dark:from-gray-800 dark:via-gray-700 dark:to-blue-900 rounded-2xl p-8 w-full max-w-sm shadow-2xl border border-blue-200 dark:border-gray-700 relative ring-2 ring-blue-300 dark:ring-blue-800 animate-fadeIn">
+      <div v-if="showModal"
+        class="fixed inset-0 flex items-center justify-center bg-black/20 bg-opacity-40 backdrop-blur-sm z-50">
+        <div
+          class="bg-gradient-to-br from-blue-100 via-white to-blue-200 dark:from-gray-800 dark:via-gray-700 dark:to-blue-900 rounded-2xl p-8 w-full max-w-sm shadow-2xl border border-blue-200 dark:border-gray-700 relative ring-2 ring-blue-300 dark:ring-blue-800 animate-fadeIn">
           <h2 class="text-lg font-bold mb-4 text-blue-500">Deseja confirmar o agendamento?</h2>
-          <p class="mb-4 text-blue-100 text-justify blu"><Strong>Atenção: </Strong>Ao agendar uma consulta, você estará reservando o horário de um profissional. Caso não possa comparecer, lembre-se de cancelar com antecedência para não prejudicar outros pacientes.</p>
+          <p class="mb-4 text-blue-100 text-justify blu"><Strong>Atenção: </Strong>Ao agendar uma consulta, você estará
+            reservando o horário de um profissional. Caso não possa comparecer, lembre-se de cancelar com antecedência
+            para não prejudicar outros pacientes.</p>
           <div class="flex justify-end gap-2">
-        <button @click="cancelarAgendamento" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-gray-800">Cancelar</button>
-        <button @click="confirmarAgendamento" class="px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white">Confirmar</button>
+            <button @click="cancelarAgendamento"
+              class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-gray-800">Cancelar</button>
+            <button @click="confirmarAgendamento"
+              class="px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white">Confirmar</button>
           </div>
         </div>
       </div>
