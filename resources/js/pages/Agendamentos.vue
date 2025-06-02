@@ -4,9 +4,6 @@ import { ref } from 'vue';
 
 const agendamentos = (usePage().props.agendamentos as Array<any>) ?? [];
 
-const showModal = ref(false);
-const agendamentoParaCancelar = ref<number|null>(null);
-
 function formatarData(data: string) {
   if (!data) return '';
   const partes = data.split('-');
@@ -21,27 +18,6 @@ function logout() {
       router.visit('/');
     }
   });
-}
-
-function abrirModalCancelar(id: number) {
-  agendamentoParaCancelar.value = id;
-  showModal.value = true;
-}
-
-function confirmarCancelamento() {
-  if (agendamentoParaCancelar.value !== null) {
-    router.delete(`/agendamentos/${agendamentoParaCancelar.value}`, {
-      preserveScroll: true,
-      onSuccess: () => {
-        showModal.value = false;
-        agendamentoParaCancelar.value = null;
-        router.visit(window.location.pathname, { replace: true });
-      },
-      onError: () => {
-        alert('Erro ao cancelar o agendamento.');
-      }
-    });
-  }
 }
 
 </script>
@@ -74,7 +50,6 @@ function confirmarCancelamento() {
               <th class="p-2 border-b border-blue-200 dark:border-blue-700">Hora</th>
               <th class="p-2 border-b border-blue-200 dark:border-blue-700">Especialidade</th>
               <th class="p-2 border-b border-blue-200 dark:border-blue-700">Médico</th>
-              <th class="p-2 border-b border-blue-200 dark:border-blue-700">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -84,25 +59,9 @@ function confirmarCancelamento() {
               <td class="p-2 border-b border-blue-100 dark:border-blue-700">{{ ag.hora }}</td>
               <td class="p-2 border-b border-blue-100 dark:border-blue-700">{{ ag.especialidade_nome }}</td>
               <td class="p-2 border-b border-blue-100 dark:border-blue-700">{{ ag.medico_nome }}</td>
-              <td class="p-2 border-b border-blue-100 dark:border-blue-700 text-center">
-                <button @click="abrirModalCancelar(ag.id)"
-                  class="bg-red-500 hover:bg-red-600 text-white font-semibold rounded-full px-4 py-1 text-md shadow transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-300 dark:bg-red-700 dark:hover:bg-red-800 dark:focus:ring-red-900">
-                  Cancelar
-                </button>
-              </td>
             </tr>
           </tbody>
         </table>
-      </div>
-    </div>
-    <div v-if="showModal" class="fixed inset-0 flex items-center justify-center bg-black/20 bg-opacity-40 backdrop-blur-sm z-50">
-      <div class="bg-gradient-to-br from-blue-100 via-white to-blue-200 dark:from-gray-800 dark:via-gray-700 dark:to-blue-900 rounded-2xl p-8 w-full max-w-sm shadow-2xl border border-blue-200 dark:border-gray-700 relative ring-2 ring-blue-300 dark:ring-blue-800 animate-fadeIn">
-        <h2 class="text-lg font-bold mb-4 text-blue-500">Deseja cancelar este agendamento?</h2>
-        <p class="mb-4 text-blue-900 dark:text-blue-100 text-justify"><strong>Atenção:</strong> Esta ação é irreversível. Tem certeza que deseja cancelar esta consulta?</p>
-        <div class="flex justify-end gap-2">
-          <button @click="showModal = false" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-gray-800">Voltar</button>
-          <button @click="confirmarCancelamento" class="px-4 py-2 rounded bg-red-500 hover:bg-red-600 text-white">Cancelar Consulta</button>
-        </div>
       </div>
     </div>
   </div>

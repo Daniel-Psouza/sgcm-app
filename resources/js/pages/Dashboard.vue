@@ -179,18 +179,18 @@ function cancelarAgendamento() {
       </div>
       <!-- Modal de confirmação -->
       <div v-if="showModal"
-        class="fixed inset-0 flex items-center justify-center bg-black/20 bg-opacity-40 backdrop-blur-sm z-50">
+        class="fixed inset-0 flex items-center justify-center bg-black/30 bg-opacity-50 backdrop-blur-sm z-50">
         <div
-          class="bg-gradient-to-br from-blue-100 via-white to-blue-200 dark:from-gray-800 dark:via-gray-700 dark:to-blue-900 rounded-2xl p-8 w-full max-w-sm shadow-2xl border border-blue-200 dark:border-gray-700 relative ring-2 ring-blue-300 dark:ring-blue-800 animate-fadeIn">
-          <h2 class="text-lg font-bold mb-4 text-blue-500">Deseja confirmar o agendamento?</h2>
-          <p class="mb-4 text-blue-100 text-justify blu"><Strong>Atenção: </Strong>Ao agendar uma consulta, você estará
+          class="bg-white dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-700 dark:to-blue-900 rounded-2xl p-8 w-full max-w-sm shadow-2xl border border-blue-400 dark:border-blue-700 relative ring-2 ring-blue-400 dark:ring-blue-800 animate-fadeIn">
+          <h2 class="text-lg font-bold mb-4 text-blue-700 dark:text-blue-100">Deseja confirmar o agendamento?</h2>
+          <p class="mb-4 text-blue-800 dark:text-blue-100 text-justify"><strong>Atenção: </strong>Ao agendar uma consulta, você estará
             reservando o horário de um profissional. Caso não possa comparecer, lembre-se de cancelar com antecedência
             para não prejudicar outros pacientes.</p>
           <div class="flex justify-end gap-2">
             <button @click="cancelarAgendamento"
-              class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-gray-800">Cancelar</button>
+              class="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-blue-800 font-semibold border border-blue-300 shadow">Cancelar</button>
             <button @click="confirmarAgendamento"
-              class="px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white">Confirmar</button>
+              class="px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white font-semibold shadow">Confirmar</button>
           </div>
         </div>
       </div>
