@@ -14,10 +14,17 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <AppShell class="flex-col">
-        <AppHeader :breadcrumbs="breadcrumbs" />
-        <AppContent>
-            <slot />
-        </AppContent>
-    </AppShell>
+    <div class="min-h-screen w-full flex flex-col netflix-bg">
+        <header class="netflix-header flex items-center justify-between px-8 py-4">
+            <div class="netflix-logo">SGCM</div>
+            <nav class="flex gap-6">
+                <slot name="header-nav" />
+            </nav>
+        </header>
+        <main class="flex-1 flex flex-col items-center justify-start py-8">
+            <div class="w-full max-w-6xl">
+                <slot />
+            </div>
+        </main>
+    </div>
 </template>

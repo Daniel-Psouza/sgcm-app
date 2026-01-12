@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { router, usePage } from '@inertiajs/vue3';
-import { ref } from 'vue';
-import { Head } from '@inertiajs/vue3'
-
+import { Head } from '@inertiajs/vue3';
+import { LogOut, ArrowLeft, Phone, Mail, Calendar, Clock, User, Stethoscope } from 'lucide-vue-next';
 
 const agendamentos = (usePage().props.agendamentos as Array<any>) ?? [];
 
@@ -21,58 +20,113 @@ function logout() {
     }
   });
 }
-
 </script>
 
 <template>
   <Head title="Consultas Agendadas" />
-  <div
-    class="h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-200 via-white to-blue-400 dark:from-gray-900 dark:via-gray-700 dark:to-blue-900 relative transition-colors py-8 px-2 sm:px-6 lg:px-8">
-    <div class="absolute top-4 left-4">
-      <button @click="router.get('/dashboard')"
-        class="bg-blue-400 hover:bg-blue-500 text-white font-semibold rounded-full shadow px-6 py-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-900">
-        Voltar
-      </button>
-    </div>
-    <div class="absolute top-4 right-4">
+  <div class="min-h-screen netflix-bg">
+    <!-- Header Netflix Style -->
+    <header class="netflix-header flex items-center justify-between">
+      <div class="flex items-center gap-8">
+        <div class="netflix-logo text-3xl">SGCM</div>
+        <button @click="router.get('/dashboard')"
+          class="flex items-center gap-2 text-[#B3B3B3] hover:text-white transition-colors">
+          <ArrowLeft class="w-5 h-5" />
+          Voltar ao Agendamento
+        </button>
+      </div>
       <button @click="logout"
-        class="bg-blue-400 hover:bg-blue-500 text-white font-semibold rounded-full shadow px-6 py-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-900">Sair</button>
-    </div>
-    <div class="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg w-full max-w-2xl mt-16">
-      <h2 class="text-3xl font-extrabold text-blue-500 text-center mb-6 tracking-tight">
-        Consultas Agendadas
-      </h2>
-      <div v-if="!agendamentos || agendamentos.length === 0" class="text-center text-blue-700 dark:text-blue-200 py-4">
-        Nenhuma consulta agendada encontrada.
+        class="flex items-center gap-2 px-6 py-2 bg-[#E50914] text-white rounded hover:bg-[#F40612] transition-all duration-300">
+        <LogOut class="w-4 h-4" />
+        Sair
+      </button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-32 px-8 pb-16">
+      <div class="max-w-6xl mx-auto">
+        <!-- Hero Section -->
+        <div class="text-center mb-12">
+          <h1 class="text-5xl font-bold text-white mb-4">Minhas Consultas</h1>
+          <p class="text-[#B3B3B3] text-xl">Acompanhe seus agendamentos</p>
+        </div>
+
+        <!-- Table Section -->
+        <div class="netflix-modal-content rounded-lg overflow-hidden">
+          <div v-if="!agendamentos || agendamentos.length === 0" class="p-16 text-center">
+            <Calendar class="w-16 h-16 text-[#E50914] mx-auto mb-4" />
+            <p class="text-[#B3B3B3] text-xl">Nenhuma consulta agendada encontrada.</p>
+            <button @click="router.get('/dashboard')" class="netflix-btn mt-6 px-8 py-3">
+              Agendar Consulta
+            </button>
+          </div>
+          
+          <table v-else class="netflix-table">
+            <thead>
+              <tr>
+                <th class="flex items-center gap-2">
+                  <Calendar class="w-4 h-4 text-[#E50914]" />
+                  Data
+                </th>
+                <th>
+                  <div class="flex items-center gap-2">
+                    <Clock class="w-4 h-4 text-[#E50914]" />
+                    Hora
+                  </div>
+                </th>
+                <th>
+                  <div class="flex items-center gap-2">
+                    <Stethoscope class="w-4 h-4 text-[#E50914]" />
+                    Especialidade
+                  </div>
+                </th>
+                <th>
+                  <div class="flex items-center gap-2">
+                    <User class="w-4 h-4 text-[#E50914]" />
+                    Medico
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="ag in agendamentos" :key="ag.id" class="hover:bg-[#E50914]/10 transition-colors">
+                <td>{{ formatarData(ag.data) }}</td>
+                <td>{{ ag.hora }}</td>
+                <td>{{ ag.especialidade_nome }}</td>
+                <td>{{ ag.medico_nome }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="mt-12 netflix-modal-content p-8 rounded-lg">
+          <h2 class="text-xl font-bold text-white mb-4">Precisa de Ajuda?</h2>
+          <p class="text-[#B3B3B3] mb-6">
+            Caso precise cancelar uma consulta ou tenha alguma duvida, entre em contato conosco:
+          </p>
+          <div class="flex flex-wrap gap-8">
+            <div class="flex items-center gap-3">
+              <div class="p-3 bg-[#E50914]/20 rounded-full">
+                <Phone class="w-5 h-5 text-[#E50914]" />
+              </div>
+              <div>
+                <p class="text-[#B3B3B3] text-sm">Telefone</p>
+                <p class="text-white font-semibold">(11) 99999-9999</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="p-3 bg-[#E50914]/20 rounded-full">
+                <Mail class="w-5 h-5 text-[#E50914]" />
+              </div>
+              <div>
+                <p class="text-[#B3B3B3] text-sm">E-mail</p>
+                <p class="text-white font-semibold">contato@sgcm.com.br</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div v-else>
-        <table class="w-full text-left border-collapse">
-          <thead>
-            <tr class="bg-blue-100 dark:bg-blue-900">
-              <th class="p-2 border-b border-blue-200 dark:border-blue-700">Data</th>
-              <th class="p-2 border-b border-blue-200 dark:border-blue-700">Hora</th>
-              <th class="p-2 border-b border-blue-200 dark:border-blue-700">Especialidade</th>
-              <th class="p-2 border-b border-blue-200 dark:border-blue-700">Médico</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="ag in agendamentos" :key="ag.id"
-              class="hover:bg-blue-50 dark:hover:bg-blue-800 transition-colors">
-              <td class="p-2 border-b border-blue-100 dark:border-blue-700">{{ formatarData(ag.data) }}</td>
-              <td class="p-2 border-b border-blue-100 dark:border-blue-700">{{ ag.hora }}</td>
-              <td class="p-2 border-b border-blue-100 dark:border-blue-700">{{ ag.especialidade_nome }}</td>
-              <td class="p-2 border-b border-blue-100 dark:border-blue-700">{{ ag.medico_nome }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div
-      class="fixed bottom-4 left-4 bg-white/90 dark:bg-gray-800/90 rounded-xl shadow-lg px-4 py-4 border-l-4 border-blue-400 dark:border-blue-700 max-w-xs z-30">
-      <p class="text-blue-900 dark:text-blue-100 text-md mt-2">Caso tenha que cancelar uma consulta entre em contato.
-      </p>
-      <p class="text-blue-900 dark:text-blue-100 text-sm font-medium mb-1">Telefone: (11) 99999-9999</p>
-      <p class="text-blue-900 dark:text-blue-100 text-sm font-medium mb-1">E-mail: contato@clinicsys.com.br</p>
-    </div>
+    </main>
   </div>
 </template>

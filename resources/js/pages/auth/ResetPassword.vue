@@ -2,8 +2,6 @@
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import AuthLayout from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
 
@@ -31,51 +29,67 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthLayout title="Redefinir senha" description="Por favor, digite sua nova senha abaixo">
-        <Head title="Redefinir senha" />
-
-        <form @submit.prevent="submit">
-            <div class="grid gap-6">
-                <div class="grid gap-2">
-                    <Label for="email">E-mail</Label>
-                    <Input id="email" type="email" name="email" autocomplete="email" v-model="form.email" class="mt-1 block w-full" readonly />
-                    <InputError :message="form.errors.email" class="mt-2" />
+    <Head title="Redefinir Senha" />
+    <div class="min-h-screen netflix-bg flex flex-col items-center justify-center px-4">
+        <!-- Netflix Logo -->
+        <div class="netflix-logo text-4xl mb-8">SGCM</div>
+        
+        <!-- Reset Password Card -->
+        <div class="netflix-card w-full max-w-md">
+            <h1 class="text-3xl font-bold text-white mb-4">Redefinir Senha</h1>
+            <p class="text-[#B3B3B3] mb-8">
+                Digite sua nova senha abaixo.
+            </p>
+            
+            <form @submit.prevent="submit" class="flex flex-col gap-5">
+                <div class="flex flex-col gap-2">
+                    <Input 
+                        id="email" 
+                        type="email" 
+                        autocomplete="email" 
+                        v-model="form.email" 
+                        class="netflix-input h-14 opacity-60"
+                        readonly
+                    />
+                    <InputError :message="form.errors.email" />
                 </div>
-
-                <div class="grid gap-2">
-                    <Label for="password">Senha</Label>
-                    <Input
-                        id="password"
-                        type="password"
-                        name="password"
-                        autocomplete="new-password"
-                        v-model="form.password"
-                        class="mt-1 block w-full"
+                
+                <div class="flex flex-col gap-2">
+                    <Input 
+                        id="password" 
+                        type="password" 
+                        required 
                         autofocus
-                        placeholder="Senha"
+                        autocomplete="new-password" 
+                        v-model="form.password" 
+                        placeholder="Nova senha"
+                        class="netflix-input h-14"
                     />
                     <InputError :message="form.errors.password" />
                 </div>
-
-                <div class="grid gap-2">
-                    <Label for="password_confirmation"> Confirmar senha </Label>
-                    <Input
-                        id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        autocomplete="new-password"
-                        v-model="form.password_confirmation"
-                        class="mt-1 block w-full"
-                        placeholder="Confirmar senha"
+                
+                <div class="flex flex-col gap-2">
+                    <Input 
+                        id="password_confirmation" 
+                        type="password" 
+                        required 
+                        autocomplete="new-password" 
+                        v-model="form.password_confirmation" 
+                        placeholder="Confirmar nova senha"
+                        class="netflix-input h-14"
                     />
                     <InputError :message="form.errors.password_confirmation" />
                 </div>
-
-                <Button type="submit" class="mt-4 w-full" :disabled="form.processing">
-                    <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
-                    Redefinir senha
+                
+                <Button 
+                    type="submit"
+                    class="netflix-btn w-full h-14 text-base font-bold mt-4" 
+                    :disabled="form.processing"
+                >
+                    <LoaderCircle v-if="form.processing" class="h-5 w-5 animate-spin mr-2" />
+                    Redefinir Senha
                 </Button>
-            </div>
-        </form>
-    </AuthLayout>
+            </form>
+        </div>
+    </div>
 </template>

@@ -4,18 +4,14 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
-
-import HeadingSmall from '@/components/HeadingSmall.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { type BreadcrumbItem } from '@/types';
+import { LoaderCircle, Lock, Check } from 'lucide-vue-next';
 
 const breadcrumbItems: BreadcrumbItem[] = [
-    {
-        title: 'Password settings',
-        href: '/settings/password',
-    },
+    { title: 'Configuracoes de Senha', href: '/settings/password' },
 ];
 
 const passwordInput = ref<HTMLInputElement | null>(null);
@@ -38,7 +34,6 @@ const updatePassword = () => {
                     passwordInput.value.focus();
                 }
             }
-
             if (errors.current_password) {
                 form.reset('current_password');
                 if (currentPasswordInput.value instanceof HTMLInputElement) {
@@ -52,64 +47,77 @@ const updatePassword = () => {
 
 <template>
     <AppLayout :breadcrumbs="breadcrumbItems">
-        <Head title="Password settings" />
+        <Head title="Configuracoes de Senha" />
 
         <SettingsLayout>
             <div class="space-y-6">
-                <HeadingSmall title="Update password" description="Ensure your account is using a long, random password to stay secure" />
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="p-4 bg-[#E50914]/20 rounded-full">
+                        <Lock class="w-8 h-8 text-[#E50914]" />
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">Alterar Senha</h2>
+                        <p class="text-[#B3B3B3]">Use uma senha longa e segura</p>
+                    </div>
+                </div>
 
                 <form @submit.prevent="updatePassword" class="space-y-6">
-                    <div class="grid gap-2">
-                        <Label for="current_password">Current password</Label>
+                    <div class="space-y-2">
+                        <Label for="current_password" class="text-[#B3B3B3]">Senha Atual</Label>
                         <Input
                             id="current_password"
                             ref="currentPasswordInput"
                             v-model="form.current_password"
                             type="password"
-                            class="mt-1 block w-full"
                             autocomplete="current-password"
-                            placeholder="Current password"
+                            placeholder="Senha atual"
+                            class="netflix-input h-12"
                         />
                         <InputError :message="form.errors.current_password" />
                     </div>
 
-                    <div class="grid gap-2">
-                        <Label for="password">New password</Label>
+                    <div class="space-y-2">
+                        <Label for="password" class="text-[#B3B3B3]">Nova Senha</Label>
                         <Input
                             id="password"
                             ref="passwordInput"
                             v-model="form.password"
                             type="password"
-                            class="mt-1 block w-full"
                             autocomplete="new-password"
-                            placeholder="New password"
+                            placeholder="Nova senha"
+                            class="netflix-input h-12"
                         />
                         <InputError :message="form.errors.password" />
                     </div>
 
-                    <div class="grid gap-2">
-                        <Label for="password_confirmation">Confirm password</Label>
+                    <div class="space-y-2">
+                        <Label for="password_confirmation" class="text-[#B3B3B3]">Confirmar Nova Senha</Label>
                         <Input
                             id="password_confirmation"
                             v-model="form.password_confirmation"
                             type="password"
-                            class="mt-1 block w-full"
                             autocomplete="new-password"
-                            placeholder="Confirm password"
+                            placeholder="Confirmar nova senha"
+                            class="netflix-input h-12"
                         />
                         <InputError :message="form.errors.password_confirmation" />
                     </div>
 
-                    <div class="flex items-center gap-4">
-                        <Button :disabled="form.processing">Save password</Button>
-
+                    <div class="flex items-center gap-4 pt-4">
+                        <Button type="submit" class="netflix-btn px-8 py-3" :disabled="form.processing">
+                            <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin mr-2" />
+                            Atualizar Senha
+                        </Button>
                         <Transition
                             enter-active-class="transition ease-in-out"
                             enter-from-class="opacity-0"
                             leave-active-class="transition ease-in-out"
                             leave-to-class="opacity-0"
                         >
-                            <p v-show="form.recentlySuccessful" class="text-sm text-neutral-600">Saved.</p>
+                            <span v-show="form.recentlySuccessful" class="flex items-center gap-2 text-green-400">
+                                <Check class="w-4 h-4" />
+                                Senha alterada!
+                            </span>
                         </Transition>
                     </div>
                 </form>

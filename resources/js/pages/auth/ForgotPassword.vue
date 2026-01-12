@@ -3,10 +3,8 @@ import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import AuthLayout from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
-import { LoaderCircle } from 'lucide-vue-next';
+import { LoaderCircle, ArrowLeft } from 'lucide-vue-next';
 
 defineProps<{
     status?: string;
@@ -22,37 +20,52 @@ const submit = () => {
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-200 via-white to-blue-400 relative">
-        <div class="flex flex-col items-center justify-center w-80 z-10" style="margin-top: 80px; margin-bottom: 40px;">
+    <Head title="Recuperar Senha" />
+    <div class="min-h-screen netflix-bg flex flex-col items-center justify-center px-4">
+        <!-- Netflix Logo -->
+        <div class="netflix-logo text-4xl mb-8">SGCM</div>
+        
+        <!-- Forgot Password Card -->
+        <div class="netflix-card w-full max-w-md">
+            <h1 class="text-3xl font-bold text-white mb-4">Esqueceu a senha?</h1>
+            <p class="text-[#B3B3B3] mb-8">
+                Digite seu e-mail e enviaremos um link para redefinir sua senha.
+            </p>
 
-            <Head title="Mudar senha" />
-
-            <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
+            <div v-if="status" class="mb-6 p-4 bg-green-500/20 border border-green-500 rounded text-green-400 text-sm">
                 {{ status }}
             </div>
-
-            <div class="space-y-6 flex flex-col gap-6 p-6 bg-white/90 rounded-xl shadow-lg w-full">
-                <form @submit.prevent="submit">
-                    <div class="grid gap-2">
-                        <Label for="email">Email</Label>
-                        <Input id="email" type="email" name="email" autocomplete="off" v-model="form.email" autofocus
-                            placeholder="exemplo@email.com" />
-                        <InputError :message="form.errors.email ? 'O campo email é necessário' : ''" />
-                    </div>
-
-                    <div class="my-6 flex items-center justify-start">
-                        <Button class="w-full" :disabled="form.processing">
-                            <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
-                            Resetar Senha do Email
-                        </Button>
-                    </div>
-                </form>
-
-
-                    <div class="space-x-1 text-center text-sm text-muted-foreground">
-                        <span>Retorne para</span>
-                        <TextLink :href="route('login')">Entar</TextLink>
-                    </div>
+            
+            <form @submit.prevent="submit" class="flex flex-col gap-6">
+                <div class="flex flex-col gap-2">
+                    <Input 
+                        id="email" 
+                        type="email" 
+                        required 
+                        autofocus 
+                        autocomplete="email" 
+                        v-model="form.email" 
+                        placeholder="E-mail"
+                        class="netflix-input h-14"
+                    />
+                    <InputError :message="form.errors.email ? 'O campo email e necessario' : ''" />
+                </div>
+                
+                <Button 
+                    type="submit"
+                    class="netflix-btn w-full h-14 text-base font-bold" 
+                    :disabled="form.processing"
+                >
+                    <LoaderCircle v-if="form.processing" class="h-5 w-5 animate-spin mr-2" />
+                    Enviar Link de Recuperacao
+                </Button>
+            </form>
+            
+            <div class="mt-8">
+                <TextLink :href="route('login')" class="flex items-center gap-2 text-[#B3B3B3] hover:text-white">
+                    <ArrowLeft class="w-4 h-4" />
+                    Voltar para o login
+                </TextLink>
             </div>
         </div>
     </div>

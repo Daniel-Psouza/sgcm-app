@@ -15,11 +15,18 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <AppShell variant="sidebar">
-        <AppSidebar />
-        <AppContent variant="sidebar">
-            <AppSidebarHeader :breadcrumbs="breadcrumbs" />
-            <slot />
-        </AppContent>
-    </AppShell>
+    <div class="min-h-screen w-full flex netflix-bg">
+        <aside class="netflix-sidebar w-64 flex flex-col py-8 px-4 shadow-lg">
+            <div class="netflix-logo mb-8">SGCM</div>
+            <nav class="flex flex-col gap-4">
+                <slot name="sidebar-nav" />
+            </nav>
+        </aside>
+        <main class="flex-1 flex flex-col items-center justify-start py-8">
+            <div class="w-full max-w-6xl">
+                <AppSidebarHeader :breadcrumbs="breadcrumbs" />
+                <slot />
+            </div>
+        </main>
+    </div>
 </template>

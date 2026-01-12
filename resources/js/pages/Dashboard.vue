@@ -1,36 +1,17 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
-import { Head } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3';
+import { Calendar, Clock, User, Stethoscope, LogOut, List } from 'lucide-vue-next';
 
-
-// Campos do formulário
 const especialidade = ref('');
 const data = ref('');
 const hora = ref('');
 const medico = ref('');
 
-// Especialidades
 const especialidades = ref<any[]>([]);
-
-// Médicos
 const medicos = ref<any[]>([]);
-
 const showModal = ref(false);
-
-watch(especialidade, async (novoId) => {
-  medicos.value = [];
-  medico.value = '';
-  if (!novoId) return;
-  try {
-    const response = await fetch(`/medicos/por-especialidade/${novoId}`);
-    if (response.ok) {
-      medicos.value = await response.json();
-    }
-  } catch (e) {
-    alert('Erro ao buscar médicos da especialidade');
-  }
-});
 
 watch([especialidade, data, hora], async ([novoId, novaData, novaHora]) => {
   medicos.value = [];
@@ -47,7 +28,7 @@ watch([especialidade, data, hora], async ([novoId, novaData, novaHora]) => {
       medicos.value = await response.json();
     }
   } catch (e) {
-    alert('Erro ao buscar médicos disponíveis');
+    alert('Erro ao buscar medicos disponiveis');
   }
 });
 
@@ -69,7 +50,6 @@ function logout() {
     }
   });
 }
-
 
 function tentarAgendar() {
   if (especialidade.value && data.value && hora.value && medico.value) {
@@ -93,7 +73,8 @@ function confirmarAgendamento() {
       data.value = '';
       hora.value = '';
       medico.value = '';
-      router.get('/agendamentos'); // Redireciona para a página de agendamentos
+      alert('Agendamento realizado com sucesso!');
+      router.get('/agendamentos/lista');
     },
     onError(errors) {
       if (errors && errors.error) {
@@ -111,90 +92,138 @@ function cancelarAgendamento() {
 </script>
 
 <template>
-    <Head title="Agendamento" />
-  <div
-    class="h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-200 via-white to-blue-400 dark:from-gray-900 dark:via-gray-700 dark:to-blue-900 relative transition-colors py-8 px-2 sm:px-6 lg:px-8">
-    <div class="absolute top-4 left-4">
-      <button @click="router.get('/agendamentos/lista')"
-        class="bg-blue-400 hover:bg-blue-500 text-white font-semibold rounded-full shadow px-6 py-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-900">
-        Consultas Agendadas
-      </button>
-    </div>
-    <div class="absolute top-4 right-4">
-      <button @click="logout"
-        class="bg-blue-400 hover:bg-blue-500 text-white font-semibold rounded-full shadow px-6 py-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-900">Sair</button>
-    </div>
-    <div class="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg w-full max-w-md">
-      <div class="flex flex-col items-center mb-6">
-        <img src="/copio.png" alt="Logo ClinicSys" class="w-14 h-14 sm:w-24 sm:h-24 mb-2 drop-shadow" />
-        <h2 class="text-3xl font-extrabold text-blue-500 text-center mb-1 tracking-tight">
-          Faça seu Agendamento
-        </h2>
-      </div>
-      <div class="mb-4">
-        <label class="text-blue-500">Especialidade</label>
-        <select
-          class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
-          v-model="especialidade">
-          <option value="" disabled>Selecione a especialidade</option>
-          <option v-for="esp in especialidades" :key="esp.id" :value="esp.id">
-            {{ esp.nome }}
-          </option>
-        </select>
-      </div>
-      <div class="mb-4 flex gap-4">
-        <div class="flex-1">
-          <label class="text-blue-500">Data</label>
-          <input type="date"
-            class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
-            v-model="data" />
-        </div>
-        <div class="flex-1">
-          <label class="text-blue-500">Hora</label>
-          <select
-            class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
-            v-model="hora">
-            <option value="" disabled>Selecione o horário</option>
-            <option value="08:00">08:00</option>
-            <option value="10:00">10:00</option>
-            <option value="12:00">12:00</option>
-            <option value="14:00">14:00</option>
-            <option value="16:00">16:00</option>
-          </select>
-        </div>
-      </div>
-      <div v-if="especialidade && data && hora">
-        <label class="text-blue-500">Medicos</label>
-        <select
-          class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
-          v-model="medico">
-          <option value="" disabled>Selecione um Médico</option>
-          <option v-for="med in medicos" :key="med.id" :value="med.id">
-            {{ med.nome }}
-          </option>
-        </select>
-      </div>
-      <div>
-        <button @click="tentarAgendar"
-          class="w-full mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full shadow px-6 py-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-900">
-          Agendar
+
+  <Head title="Agendamento" />
+  <div class="min-h-screen netflix-bg">
+    <!-- Header Netflix Style -->
+    <header class="netflix-header flex items-center justify-between">
+      <div class="netflix-logo text-3xl">SGCM</div>
+      <div class="flex gap-4">
+        <button @click="router.get('/agendamentos/lista')"
+          class="flex items-center gap-2 px-6 py-2 bg-transparent border border-[#E50914] text-white rounded hover:bg-[#E50914] transition-all duration-300">
+          <List class="w-4 h-4" />
+          Minhas Consultas
+        </button>
+        <button @click="logout"
+          class="flex items-center gap-2 px-6 py-2 bg-[#E50914] text-white rounded hover:bg-[#F40612] transition-all duration-300">
+          <LogOut class="w-4 h-4" />
+          Sair
         </button>
       </div>
-      <!-- Modal de confirmação -->
-      <div v-if="showModal"
-        class="fixed inset-0 flex items-center justify-center bg-black/30 bg-opacity-50 backdrop-blur-sm z-50">
-        <div
-          class="bg-white dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-700 dark:to-blue-900 rounded-2xl p-8 w-full max-w-sm shadow-2xl border border-blue-400 dark:border-blue-700 relative ring-2 ring-blue-400 dark:ring-blue-800 animate-fadeIn">
-          <h2 class="text-lg font-bold mb-4 text-blue-700 dark:text-blue-100">Deseja confirmar o agendamento?</h2>
-          <p class="mb-4 text-blue-800 dark:text-blue-100 text-justify"><strong>Atenção: </strong>Ao agendar uma consulta, você estará
-            reservando o horário de um profissional. Caso não possa comparecer, lembre-se de cancelar com antecedência
-            para não prejudicar outros pacientes.</p>
-          <div class="flex justify-end gap-2">
-            <button @click="cancelarAgendamento"
-              class="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-blue-800 font-semibold border border-blue-300 shadow">Cancelar</button>
-            <button @click="confirmarAgendamento"
-              class="px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white font-semibold shadow">Confirmar</button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-32 px-8 pb-16">
+      <div class="max-w-4xl mx-auto">
+        <!-- Hero Section -->
+        <div class="text-center mb-12">
+          <h1 class="text-5xl font-bold text-white mb-4">Agende sua Consulta</h1>
+          <p class="text-[#B3B3B3] text-xl">Selecione a especialidade, data e horario desejados</p>
+        </div>
+
+        <!-- Booking Card -->
+        <div class="netflix-modal-content p-8 rounded-lg">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Especialidade -->
+            <div class="flex flex-col gap-2">
+              <label class="text-[#E50914] font-semibold flex items-center gap-2">
+                <Stethoscope class="w-5 h-5" />
+                Especialidade
+              </label>
+              <select v-model="especialidade" class="netflix-select">
+                <option value="" disabled>Selecione a especialidade</option>
+                <option v-for="esp in especialidades" :key="esp.id" :value="esp.id">
+                  {{ esp.nome }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Data -->
+            <div class="flex flex-col gap-2">
+              <label class="text-[#E50914] font-semibold flex items-center gap-2">
+                <Calendar class="w-5 h-5" />
+                Data
+              </label>
+              <input type="date" v-model="data" class="netflix-select" />
+            </div>
+
+            <!-- Hora -->
+            <div class="flex flex-col gap-2">
+              <label class="text-[#E50914] font-semibold flex items-center gap-2">
+                <Clock class="w-5 h-5" />
+                Horario
+              </label>
+              <select v-model="hora" class="netflix-select">
+                <option value="" disabled>Selecione o horario</option>
+                <option value="08:00">08:00</option>
+                <option value="10:00">10:00</option>
+                <option value="12:00">12:00</option>
+                <option value="14:00">14:00</option>
+                <option value="16:00">16:00</option>
+              </select>
+            </div>
+
+            <!-- Medico -->
+            <div v-if="especialidade && data && hora" class="flex flex-col gap-2">
+              <label class="text-[#E50914] font-semibold flex items-center gap-2">
+                <User class="w-5 h-5" />
+                Medico
+              </label>
+              <select v-model="medico" class="netflix-select">
+                <option value="" disabled>Selecione um Medico</option>
+                <option v-for="med in medicos" :key="med.id" :value="med.id">
+                  {{ med.nome }}
+                </option>
+              </select>
+            </div>
           </div>
+
+          <!-- Submit Button -->
+          <button @click="tentarAgendar" class="netflix-btn w-full mt-8 py-4 text-lg">
+            Agendar Consulta
+          </button>
+        </div>
+
+        <!-- Features Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+          <div
+            class="bg-[#181818] p-6 rounded-lg border border-[#333] hover:border-[#E50914] transition-all duration-300">
+            <Calendar class="w-10 h-10 text-[#E50914] mb-4" />
+            <h3 class="text-white font-bold text-lg mb-2">Agendamento Facil</h3>
+            <p class="text-[#B3B3B3]">Agende sua consulta em poucos cliques</p>
+          </div>
+          <div
+            class="bg-[#181818] p-6 rounded-lg border border-[#333] hover:border-[#E50914] transition-all duration-300">
+            <User class="w-10 h-10 text-[#E50914] mb-4" />
+            <h3 class="text-white font-bold text-lg mb-2">Profissionais Qualificados</h3>
+            <p class="text-[#B3B3B3]">Equipe medica de alta qualidade</p>
+          </div>
+          <div
+            class="bg-[#181818] p-6 rounded-lg border border-[#333] hover:border-[#E50914] transition-all duration-300">
+            <Clock class="w-10 h-10 text-[#E50914] mb-4" />
+            <h3 class="text-white font-bold text-lg mb-2">Horarios Flexiveis</h3>
+            <p class="text-[#B3B3B3]">Diversos horarios disponiveis para voce</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal de Confirmacao -->
+    <div v-if="showModal" class="fixed inset-0 netflix-modal flex items-center justify-center z-50">
+      <div class="netflix-modal-content p-8 w-full max-w-md animate-fadeIn">
+        <h2 class="text-2xl font-bold text-white mb-4">Confirmar Agendamento</h2>
+        <p class="text-[#B3B3B3] mb-6">
+          <strong class="text-[#E50914]">Atencao:</strong> Ao agendar uma consulta, voce estara reservando
+          o horario de um profissional. Caso nao possa comparecer, lembre-se de cancelar com antecedencia.
+        </p>
+        <div class="flex gap-4">
+          <button @click="cancelarAgendamento"
+            class="flex-1 py-3 bg-[#333] text-white rounded hover:bg-[#454545] transition-all duration-300">
+            Cancelar
+          </button>
+          <button @click="confirmarAgendamento" class="flex-1 py-3 netflix-btn">
+            Confirmar
+          </button>
         </div>
       </div>
     </div>
